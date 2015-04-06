@@ -36,3 +36,8 @@ javaCompiler...args
 
 # maven
 target/
+
+.classpath
+.settings
+.project
+
