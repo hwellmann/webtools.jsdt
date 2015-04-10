@@ -33,6 +33,7 @@ Giving it a try
 * Notice the two debug targets.
 * See the breakpoint being hit with a call stack more or less like this:
 
+````
     Thread [main] (Suspended (breakpoint at line 4 in Script$Recompilation$2$15$counter))       
         Script$Recompilation$2$15$counter.foo(ScriptFunction, Object) line: 4   
         905654280.invokeStatic_LL_L(Object, Object, Object) line: not available 
@@ -64,7 +65,7 @@ Giving it a try
         NashornScriptEngine.eval(String, ScriptContext) line: 152       
         NashornScriptEngine(AbstractScriptEngine).eval(String) line: 264        
         JavaScriptApplication.main(String[]) line: 22   
-
+````
 * That's all for now.
 
 Known issues
