@@ -20,6 +20,7 @@ import org.eclipse.wst.jsdt.debug.core.jsdi.VirtualMachine;
 import org.eclipse.wst.jsdt.debug.core.jsdi.event.EventQueue;
 import org.eclipse.wst.jsdt.debug.core.jsdi.request.EventRequestManager;
 import org.eclipse.wst.jsdt.debug.internal.nashorn.jsdi.request.NashornEventRequestManager;
+import org.eclipse.wst.jsdt.debug.nashorn.launch.NashornScriptLoadBreakpointListener;
 
 public class NashornVirtualMachine implements VirtualMachine {
 	
@@ -28,6 +29,8 @@ public class NashornVirtualMachine implements VirtualMachine {
 	private NashornEventQueue queue;
 	private Map<IThread, NashornThreadReference> threadMap = new HashMap<IThread, NashornThreadReference>();
 	private Map<String, NashornScriptReference> scriptMap = new HashMap<String, NashornScriptReference>();
+	
+	private NashornScriptLoadBreakpointListener javaBreakpointListener;
 
 	public NashornVirtualMachine(IJavaDebugTarget javaTarget) {
 		this.javaTarget = javaTarget;
@@ -175,4 +178,15 @@ public class NashornVirtualMachine implements VirtualMachine {
 	public IJavaDebugTarget getJavaTarget() {
 		return javaTarget;
 	}
+
+	public NashornScriptLoadBreakpointListener getJavaBreakpointListener() {
+		return javaBreakpointListener;
+	}
+
+	public void setJavaBreakpointListener(
+			NashornScriptLoadBreakpointListener javaBreakpointListener) {
+		this.javaBreakpointListener = javaBreakpointListener;
+	}
+	
+    
 }

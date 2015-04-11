@@ -17,19 +17,25 @@ import com.sun.jdi.ReferenceType;
 import com.sun.jdi.ThreadReference;
 import com.sun.jdi.event.ClassPrepareEvent;
 
-public class JavaClassPrepareWildcardBreakpoint extends JavaClassPrepareBreakpoint {
+public class JavaClassPrepareWildcardBreakpoint extends
+		JavaClassPrepareBreakpoint {
 
-	private static Logger log = LoggerFactory.getLogger(JavaClassPrepareWildcardBreakpoint.class);
+	private static final String WILDCARD = "*";
 	
-	private  Map<IJavaThread, ReferenceType> threadToType = new HashMap<IJavaThread, ReferenceType>();
+	private static Logger log = LoggerFactory
+			.getLogger(JavaClassPrepareWildcardBreakpoint.class);
+
+	private Map<IJavaThread, ReferenceType> threadToType = new HashMap<IJavaThread, ReferenceType>();
 
 	public JavaClassPrepareWildcardBreakpoint(final IResource resource,
 			final String typeName, final int memberType, final int charStart,
-			final int charEnd, final boolean add, final Map<String, Object> attributes) throws DebugException {
-		super(resource, typeName, memberType, charStart, charEnd, add, attributes);
-		
+			final int charEnd, final boolean add,
+			final Map<String, Object> attributes) throws DebugException {
+		super(resource, typeName, memberType, charStart, charEnd, add,
+				attributes);
+
 	}
-	
+
 	@Override
 	public boolean handleClassPrepareEvent(ClassPrepareEvent event,
 			JDIDebugTarget target, boolean suspendVote) {
@@ -51,22 +57,21 @@ public class JavaClassPrepareWildcardBreakpoint extends JavaClassPrepareBreakpoi
 	}
 
 	private boolean matchesPattern(ClassPrepareEvent event)
-			throws CoreException {		
+			throws CoreException {
 		String className = event.referenceType().name();
 		String pattern = getTypeName();
 		boolean isMatch = false;
-		if (pattern.startsWith("*")) {
+		if (pattern.startsWith(WILDCARD)) {
 			isMatch = className.endsWith(pattern.substring(1));
-		}
-		else if (pattern.endsWith("*")) {
-			pattern = pattern.substring(0, pattern.length()-1);
-			isMatch = className.startsWith(pattern);
-		}
-		else {
+		} else if (pattern.endsWith(WILDCARD)) {
+			isMatch = className.startsWith(pattern.substring(0,
+					pattern.length() - 1));
+		} else {
 			isMatch = className.equals(pattern);
 		}
 		if (isMatch) {
-			log.debug("ClassPrepare type = {}, pattern = {}", className, pattern);
+			log.debug("ClassPrepare type = {}, pattern = {}", className,
+					pattern);
 		}
 		return isMatch;
 	}
